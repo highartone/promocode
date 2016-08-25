@@ -1,0 +1,50 @@
+<% for(var i in data.promocodes) { %>
+<article class="js-coupon-container coupon-container promocode-item">
+    <div>
+        <div class="js-overlay-close overlay-modal-close hidden">
+            <i class="close-icon-xl-white"></i>
+        </div>
+        <div class="js-coupon coupon has-code ">
+            <div class="coupon-tag tooltip tooltip-bottom tooltip-coupon">
+                <i class="coupon-tag-icon fa fa-shield" aria-hidden="true"></i>
+            </div>
+            <div class="coupon-left">
+                <a class="coupon-merch-link shop-item" href="/shop=<%= data.promocodes[i].shopId %>" data-shop="<%= data.promocodes[i].shopId %>">
+                    <img src="<%= data.promocodes[i].logo %>" class="js-inject-img coupon-sm-logo box-bottomMarginTight">
+                </a>
+            </div>
+            <div class="coupon-body">
+                <h3 class="headline coupon-headline" >
+                    <%= data.promocodes[i].name %>
+                </h3>
+
+                <p class="coupon-meta">
+                    <span class="coupon-description">
+                        <%= data.promocodes[i].description %>
+                    </span>
+                </p>
+
+                <span class="mobile-meta visible-xs"></span>
+
+                <p class="coupon-extras hidden-xs">
+                    <span class="js-tray-show-share text-tiny link-light">Действует до: <%= data.promocodes[i].dateEnd %></span>
+                </p>
+            </div>
+
+            <div class="coupon-right hidden-xs">
+                <p class="coupon-btn">
+                    <a
+                            class="js-couponlink btnWithCode"
+                            data-link="/promocode=<%= data.promocodes[i].id%>"
+                            data-shop="<%= data.promocodes[i].shopId %>"
+                            href="<%= data.promocodes[i].promolink%>">
+                                                        <span class="btnBase btnOutline">
+                                                            показать промокод
+                                                        </span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</article>
+<% }; %>

@@ -1,0 +1,21 @@
+{
+  "cluster":{
+    "worker":"server.js"
+  },
+  "server":{
+    "host":"127.0.0.1",
+    "port":8893
+  },
+  "db":{
+    "redis":{
+      "host":"127.0.0.1",
+      "port":6379
+    },
+    "mongo":{
+      "host":     "localhost",
+      "port":     27017,
+      "database": "prommy"
+    }
+  },
+  "local": true
+}

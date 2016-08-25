@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Prommy.ru</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
+
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/font-awesome.min.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+
+<div id="mobileMenu-pushAside" class="mobileMenuPushAside">
+    <div class="wrapper">
+
+
+        <div class="logobar">
+            <div class="l-centered">
+                <a href="#menu" class="js-openMobileMenu mobile_menu"></a>
+                <a href="/" class="logo" title="back to homepage">Prom<b>my</b>.ru</a>
+            </div>
+        </div>
+        <!-- end of logobar -->
+
+
+        <div id="mobileMenu">
+            <div class="topnavbar">
+                <nav class="l-centered">
+                    <span class="topnavbar-left">
+                        <span>
+                            <a href="/">
+                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                <span>Купоны</span>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="/shops">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span>Магазины</span>
+                            </a>
+                        </span>
+                    </span>
+                </nav>
+            </div>
+        </div>
+        <!-- end of #mobileMenu -->
+
+        <div id="bodywrap">
+
+            <div class="l-centered">
+                <div class="l-pt-md l-ml-md-at-xs two-col-headline">
+                    <h1 class="headline headline-hasIconStar no-margin">Создание баннеров</h1>
+                </div>
+                <div class="l-two-col l-one-col">
+                    <div class="l-main ">
+
+                        <form name="banners" id="banner-form" action="/banner" enctype="multipart/form-data" method="post">
+                            <%if(data.banners.length){%>
+                                <% for(var i in data.banners) { %>
+                                <div class="coupon banner-item" data-id="<%= data.banners[i]._id %>">
+                                    <input type="hidden" name="old-img" value="<%= data.banners[i].img %>" class="old-img">
+                                    <input type="text" class="banner-field banner-link" name="link" placeholder="ссылка" value="<%= data.banners[i].link %>">
+                                    <textarea class="banner-field banner-desc" name="desc" placeholder="описание" rows="3"><%= data.banners[i].desc %></textarea>
+                                    <input type="file" id="banner-img-<%=i%>" class="banner-img-field" name="banner-img" multiple="multiple">
+                                    <label for="banner-img-<%=i%>" class="banner-img">
+                                        <i class="fa fa-file" aria-hidden="true"></i>
+                                        <span class="file-name"><%= data.banners[i].img %></span>
+                                    </label>
+                                    <span class="delete-banner banner-btn" title="удалить баннер">
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                                <% } %>
+                            <% } %>
+                        </form>
+
+                        <div class="coupon banner-item banner-clone">
+                            <input type="hidden" name="old-img" value="new" class="old-img">
+                            <input type="text" class="banner-field banner-link" name="link" placeholder="ссылка">
+                            <textarea class="banner-field banner-desc" name="desc" placeholder="описание" rows="3"></textarea>
+                            <input type="file" id="banner-img-" class="banner-img-field" name="banner-img">
+                            <label for="banner-img-" class="banner-img">
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                <span class="file-name">выбрать файл</span>
+                            </label>
+                            <span class="delete-banner banner-btn" title="удалить баннер">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                            </span>
+                        </div>
+
+                        <span class="create-banner banner-btn" id="create-banner" title="добавить баннер">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </span>
+                        <span class="save-banner banner-btn" id="save-banner">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                            сохранить
+                        </span>
+
+                    </div> <!-- end of l-main -->
+                </div> <!-- end of l-two-col -->
+            </div> <!-- end of l-centered -->
+        </div>
+
+        <div class="push"></div>
+    </div>
+
+    <!-- begin footercontainer -->
+    <div id="shared-footer-container" class="footercontainer">
+        <div class="l-centered align_center">
+            <p class="footer_copyright">
+                Все марки и логотипы, представленные на данном портале, принадлежат их законным владельцам.<br>
+                © 2016 Prommy.ru все права защищены
+            </p>
+        </div>
+    </div>
+    <!-- end of footercontainer -->
+</div>
+
+<script src="js/wowslider.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+
+</html>

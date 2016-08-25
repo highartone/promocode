@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Prommy.ru</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
+
+    <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/font-awesome.min.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+
+<div id="mobileMenu-pushAside" class="mobileMenuPushAside">
+    <div class="wrapper">
+
+
+        <div class="logobar">
+            <div class="l-centered">
+                <a href="#menu" class="js-openMobileMenu mobile_menu"></a>
+                <a href="/" class="logo" title="back to homepage">Prom<b>my</b>.ru</a>
+
+                <div class="inputwithsubmit inputwithsubmit_sitesearch">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <form action="/search" id="searchForm" method="get">
+                        <input name="term" type="text" id="search-term" autocomplete="off" size="50" class="searchtextbox defaultText" placeholder="">
+                        <input type="submit" id="btnSearch" class="btnBase btnSecondary" value="Поиск">
+                    </form>
+                    <div class="contain_autocomplete_list">
+                        <div id="autocomplete_list_of_results"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of logobar -->
+
+
+        <div id="mobileMenu">
+            <div class="topnavbar">
+                <nav class="l-centered">
+                    <span class="topnavbar-left">
+                        <span>
+                            <a href="/" class="active">
+                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                <span>Купоны</span>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="/shops">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span>Магазины</span>
+                            </a>
+                        </span>
+                    </span>
+                </nav>
+            </div>
+        </div>
+        <!-- end of #mobileMenu -->
+
+        <div id="bodywrap">
+            <!--for inline coupon modals-->
+            <div class="js-overlay-close overlay-bg hidden"></div>
+
+            <% if(data.banners.length){ %>
+            <div class="l-centered slider" id="wowslider-container">
+                <div class="ws_images">
+                    <ul>
+                        <% for(var i in data.banners) { %>
+                        <li>
+                            <div class="slider-item" style="background-image: url('img/<%= data.banners[i].img %>');">
+                                <div class="hero-slider-seasonal-info">
+                                    <!--<img class="js-inject-img hero-slider-seasonal-icon" src="http://cdn.promocodes.com/img/web-category-cover/icon/31/v1/summer-savings-icon.png" width="60" height="60">-->
+                                    <h3 class="hero-slider-seasonal-headline"><%= data.banners[i].desc %></h3>
+                                    <!--<p class="hero-slider-seasonal-description"></p>-->
+                                    <a href="<%= data.banners[i].link %>" class="btnBase-hero" target="_blank">
+                                        <span class="btnBase">Перейти</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            <% } %>
+
+            <%if(data.promocode){%>
+            <div id="overlaymodal-bg" class="overlay-modal-bg">
+                <article class="js-overlaymodal overlay-modal">
+                    <div class="js-overlaymodal-close overlay-modal-close">
+                        <i class="close-icon-xl-white" id="close"></i>
+                    </div>
+                    <div class="texture_flat_bright" id="promocode-cont">
+                        <div class="box overlay-modal-header box-border-bottom-light">
+                            <div class="grid-table">
+                                <div class="grid-cell-top">
+                                    <img src="<%= data.promocode.logo%>" class="coupon-sm-logo l-mb-md-in">
+                                </div>
+                                <div class="grid-cell-middle grid-cell-fill l-pl-md">
+                                    <h2 class="headline l-mb-md-in overlay-modal-headline">
+                                        <%= data.promocode.name%>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-sidePaddingLarge l-pt-lg-in">
+                            <div class="l-pb-md-in align_center">
+                                <h2 class="headline headline-minus">Ваш промокод</h2>
+                                <div class="overlay-modal-btn-container column-sm-center">
+                                    <div class="js-copyclipboard">
+                                        <div class="buttonwithlabel buttonwithlabel-no-border buttonwithlabel-staticBtnSmall buttonwithlabel-clipboard">
+                                            <div class="buttonwithlabel_label">
+                                                <p class="js-copyclipboard-label buttonwithlabel-selectable"><%= data.promocode.promocode%></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <!--/for inline coupon modals-->
+            <%}%>
+
+            <div class="l-centered">
+                <div class="l-two-col">
+                    <div class="l-main">
+                        <% if(data.noResult){ %>
+                        <h1 class="headline">К сожалению, поиск не дал результатов</h1>
+                        <% }else{ %>
+                        <div id="promocodes-cont">
+                            <% for(var i in data.promocodes) { %>
+                            <article class="js-coupon-container coupon-container promocode-item">
+                                <div>
+                                    <div class="js-overlay-close overlay-modal-close hidden">
+                                        <i class="close-icon-xl-white"></i>
+                                    </div>
+                                    <div class="js-coupon coupon has-code ">
+                                        <div class="coupon-tag tooltip tooltip-bottom tooltip-coupon">
+                                            <i class="coupon-tag-icon fa fa-shield" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="coupon-left">
+                                            <a class="coupon-merch-link shop-item" href="/shop=<%= data.promocodes[i].shopId %>" data-shop="<%= data.promocodes[i].shopId %>">
+                                                <img src="<%= data.promocodes[i].logo %>" class="js-inject-img coupon-sm-logo box-bottomMarginTight">
+                                            </a>
+                                        </div>
+                                        <div class="coupon-body">
+                                            <h3 class="headline coupon-headline" >
+                                                <%= data.promocodes[i].name %>
+                                            </h3>
+
+                                            <p class="coupon-meta">
+                                                    <span class="coupon-description">
+                                                        <%= data.promocodes[i].description %>
+                                                    </span>
+                                            </p>
+
+                                            <span class="mobile-meta visible-xs"></span>
+
+                                            <p class="coupon-extras hidden-xs">
+                                                <span class="js-tray-show-share text-tiny link-light">Действует до: <%= data.promocodes[i].dateEnd %></span>
+                                            </p>
+                                        </div>
+
+                                        <div class="coupon-right hidden-xs">
+                                            <p class="coupon-btn">
+                                                <a
+                                                        class="js-couponlink btnWithCode"
+                                                        data-link="/promocode=<%= data.promocodes[i].id%>"
+                                                        data-shop="<%= data.promocodes[i].shopId %>"
+                                                        href="<%= data.promocodes[i].promolink%>">
+                                                        <span class="btnBase btnOutline">
+                                                            показать промокод
+                                                        </span>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <% }; %>
+                        </div>
+                        <% } %>
+
+                        <div class="more-btn" id="more-btn">больше купонов</div>
+
+                    </div> <!-- end of l-main -->
+
+                    <div class="l-sidebar">
+                        <div class="box-sidebar">
+                            <h2 class="headline box-bottomMargin">
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                                <span>Категории</span>
+                            </h2>
+                            <ul class="categories">
+                                <% for(var i in data.categories) { %>
+                                    <li <% if(data.categories[i].id == data.category){ %>class="active"<% } %>>
+                                        <a href="/promocodes&category=<%= data.categories[i].id %>"><%= data.categories[i].name %></a>
+                                    </li>
+                                <% }; %>
+                            </ul>
+                        </div>
+                        <% if(data.topShops.length){ %>
+                        <div class="box-sidebar">
+                            <h2 class="headline box-bottomMargin">Популярные магазины</h2>
+                            <ul class="imagelist-round">
+                                <% for(var i in data.topShops) { %>
+                                <li>
+                                    <a href="/shop=<%= data.topShops[i].id%>" class="shop-item" data-shop="<%= data.topShops[i].id%>">
+                                        <img src="<%= data.topShops[i].logo %>" width="120" height="40" alt="<%= data.topShops[i].name %>">
+                                    </a>
+                                </li>
+                                <% }; %>
+                            </ul>
+                        </div>
+                        <% }; %>
+                    </div>
+
+                </div> <!-- end of l-two-col -->
+            </div> <!-- end of l-centered -->
+        </div>
+
+        <div class="push"></div>
+    </div>
+
+    <!-- begin footercontainer -->
+    <div id="shared-footer-container" class="footercontainer">
+        <div class="l-centered align_center">
+            <p class="footer_copyright">
+                Все марки и логотипы, представленные на данном портале, принадлежат их законным владельцам.<br>
+                © 2016 Prommy.ru все права защищены
+            </p>
+        </div>
+    </div>
+    <!-- end of footercontainer -->
+</div>
+
+<script src="js/wowslider.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+
+</html>
