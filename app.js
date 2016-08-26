@@ -54,9 +54,11 @@ var APP = function(config){
 	});
 	this.router.path('banner',function(){
 		this.get(function(){require('./routes/banner.js')(this.req,this.res,self)});
+	});
+	this.router.path('bannerSave',function(){
 		this.post(function(){require('./routes/banner.js')(this.req,this.res,self)});
 	});
-	this.router.path(/banner&id=([\s\S]*)&dir=([\s\S]{2})/,function(){
+	this.router.path(/bannerSave&id=([\s\S]*)&dir=([\s\S]{2})/,function(){
 		this.get(function(id,dir){require('./routes/banner.js')(this.req,this.res,self,id,dir)});
 	});
 

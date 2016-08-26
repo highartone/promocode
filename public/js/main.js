@@ -93,7 +93,7 @@ $(document).ready(function(){
     $('#save-banner').click(function(){
         var formData = new FormData(document.forms.banners);
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/banner', true);
+        xhr.open('POST', '/bannerSave', true);
         xhr.send(formData);
         xhr.onload = function(){
             if (xhr.status != 200) {
@@ -111,7 +111,7 @@ $(document).ready(function(){
         $(this).parent().remove();
         if(dir && dir !== 'new'){
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/banner&id='+id+'&dir='+dir, true);
+            xhr.open('GET', '/bannerSave&id='+id+'&dir='+dir, true);
             xhr.send();
         }
     });
