@@ -51,7 +51,7 @@ module.exports = function(req,res,app,pageName,category){
                                 app.Banners.getAll().then(function(banners){
                                     data.banners = banners ? banners : null;
 
-                                    app.just.render('index',{data: data},function(err,html){
+                                    app.just.render('shops',{data: data},function(err,html){
                                         if(err){console.log(err);}
                                         else{
                                             res.setHeader('Content-Type', 'text/html');
