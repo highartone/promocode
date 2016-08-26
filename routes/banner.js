@@ -14,18 +14,20 @@ module.exports = function(req,res,app,id,dir){
             var hash = app.md5((Math.random().toString() + new Date().getTime().toString() + Math.random().toString()));
             var dir = [hash.substr(0,2),hash.substr(2,2)].join('/');
             var fileName = hash.substr(8,8)+'.'+ext;
-            app.fs.access([STORAGE_PATH,'banners',dir,fileName].join('/'), app.fs.R_OK | app.fs.W_OK, function (err) {
+            app.fs.stat([STORAGE_PATH,'banners',dir,fileName].join('/'), function (err, stats) {
                 if(err){
-                    app.fs.access([STORAGE_PATH,'banners',dir].join('/'),app.fs.R_OK | app.fs.W_OK,function(err){
+                    app.fs.stat([STORAGE_PATH,'banners',dir].join('/'),function(err, stats){
                         if(err){
                             app.exec('mkdir -p ' + [STORAGE_PATH,'banners',dir].join('/'),function(err){
                                 cb(err,dir,fileName,hash);
                             })
                         }else{
+                            console.log('dir stats'+stats);
                             cb(err,dir,fileName,hash);
                         }
                     });
                 }else{
+                    console.log('file stats'+stats);
                     makePath(ext,cb);
                 }
             });
