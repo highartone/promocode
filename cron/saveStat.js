@@ -2,20 +2,30 @@ console.log('Start save statistics! ', new Date());
 
 var config = require('../config'),
     redis = require('redis').createClient(config.get('db:redis:port'),config.get('db:redis:host')),
-    Shops = require('../models/shops');
+    Shops = require('../models/shops'),
+    mongo = require('../services/mongo');
 
-redis.HGETALL('prommy', function(err, values){
-    if(err){
-        console.log('redis HGETALL error: '+err);
-        redis.quit();
-    }else{
-        var data = Object.keys(values).map(function(item){
-            return {id: item, rating: parseInt(values[item])};
+var end = function(err){
+    if(err){console.trace(err);}
+    redis.quit();
+    mongo.close();
+    console.log('End save statistics! ', new Date());
+};
+redis.HGETALL('prommy:stat', function(err, values){
+    if(err){end(err);}
+    else{
+        console.log(values);
+        var multi = redis.multi();
+        var data = Object.keys(values).map(function(id){
+            var count = +values[id];
+            multi.hincrby('prommy:stat',id,-count);
+            return {id: id, rating: count};
         });
         Shops.updateRating(data)
             .then(function () {
-                redis.quit();
-                console.log('Finish save statistics! ', new Date());
-            });
+                console.log(1223);
+                multi.exec(end);
+            })
+            .fail(end);
     }
 });
