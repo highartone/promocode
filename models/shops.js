@@ -86,6 +86,7 @@ exports.updateRating = function (data) {
             });
         })
         .fail(function (err) {
+            console.log('fail update rating error: '+err);
             deferred.reject(err);
         });
 
