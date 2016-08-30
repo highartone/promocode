@@ -13,24 +13,30 @@ module.exports = function(req,res,app){
                     data.noResult = data.promocodes.length ? false : true;
                     data.promocode = 0;
 
-                    app.Shops.getTop()
-                        .then(function (shops) {
-                            data.topShops = shops.filter(function(shop){
-                                return true ? shop.rating : false;
-                            });
-
-                            app.Banners.getAll().then(function(banners){
-                                data.banners = banners ? banners : null;
-
-                                app.just.render('index',{data: data},function(err,html){
-                                    if(err){console.log(err);}
-                                    else{
-                                        res.setHeader('Content-Type', 'text/html');
-                                        res.write(html);
-                                    }
-                                    res.end();
+                    app.Shops.getAllSearch(term)
+                        .then(function(shops){
+                            data.shops = shops;
+                            data.noShopsResult = shops.length ? false : true;
+    
+                            app.Shops.getTop()
+                                .then(function (shops) {
+                                    data.topShops = shops.filter(function(shop){
+                                        return true ? shop.rating : false;
+                                    });
+    
+                                    app.Banners.getAll().then(function(banners){
+                                        data.banners = banners ? banners : null;
+    
+                                        app.just.render('index',{data: data},function(err,html){
+                                            if(err){console.log(err);}
+                                            else{
+                                                res.setHeader('Content-Type', 'text/html');
+                                                res.write(html);
+                                            }
+                                            res.end();
+                                        });
+                                    });
                                 });
-                            });
                         });
                 });
         });

@@ -131,6 +131,19 @@
 
             <div class="l-centered">
                 <div class="l-two-col">
+                    <% if(!data.noShopsResult){ %>
+                    <div class="l-main">
+                        <ul class="shops">
+                            <% for(var i in data.shops) { %>
+                            <li>
+                                <a href="/shop=<%= data.shops[i].id%>" class="shop-item" data-shop="<%= data.shops[i].id%>">
+                                    <img src="<%= data.shops[i].logo %>" alt="<%= data.shops[i].name %>">
+                                </a>
+                            </li>
+                            <% }; %>
+                        </ul>
+                    </div> <!-- end of l-main -->
+                    <% } %>
                     <div class="l-main">
                         <% if(data.noResult){ %>
                         <h1 class="headline">К сожалению, поиск не дал результатов</h1>

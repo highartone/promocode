@@ -174,4 +174,40 @@ exports.getAllCategory = function (category) {
     return deferred.promise;
 };
 
+/**
+ * Get all shops of a search 
+ *
+ * @param {String} term
+ * @returns {*|promise}
+ */
+exports.getAllSearch = function (term) {
+    var deferred = Q.defer();
+    
+    mongo.connect()
+        .then(function (db) {
+            db.collection(COLLECTION_NAME)
+                .find({
+                    deleted: {$ne: true},
+                    $or: [
+                        {name: new RegExp(term, "ig")},
+                        {site: new RegExp(term, "ig")}
+                    ]
+                })
+                .toArray(function (err, data) {
+                    if (err) {
+                        console.log('shops find error: '+err);
+                        deferred.reject();
+                    } else {
+                        deferred.resolve(data);
+                    }
+                });
+        })
+        .fail(function (err) {
+            console.log('shops find fail error: '+err);
+            deferred.reject(err);
+        });
+
+    return deferred.promise;
+};
+
 
