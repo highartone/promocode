@@ -4,7 +4,8 @@ module.exports = function(req,res,app,id,dir){
     const STORAGE_PATH = __dirname + '/../public/img';
 
     if (req.method === 'POST') {
-        var banners = [];
+        var banners = [],
+            shopsLinks = [];
 
         // console.log('formData: \n');
         // console.log(req.files);
@@ -37,50 +38,70 @@ module.exports = function(req,res,app,id,dir){
             req.fields[key].forEach(function(item, i){
                 if(!banners[i]) banners[i] = {};
                 banners[i][key] = item;
+                if(key == 'shop'){
+                    shopsLinks.push(item);
+                }
             });
         }
 
-        for(var key in req.files){
-            req.files[key].forEach(function(file, i, arr){
-                if(banners[i]['old-img'] !== 'new' && !file.originalFilename){
-                    var ext = banners[i]['old-img'].split('.');
-                    ext = ext[ext.length - 1];
-                    var path = [STORAGE_PATH, banners[i]['old-img']].join('/');
-                }else{
-                    var file = file;
-                    var ext = file.originalFilename.split('.');
-                    ext = ext[ext.length - 1];
-                    var path = file.path;
-                }
-                if(file.size <= MAX_FILE_SIZE){
-                    makePath(ext,function(err,dir,fileName,hash){
-                        if(err){console.log('makepath err: '+err);}
-                        else{
-                            var pathNew = [STORAGE_PATH,'banners',dir,fileName].join('/');
-                            app.fs.rename(path, pathNew, function(err){
-                                if(err){console.log('rename err: '+err);}
-                                else{
-                                    banners[i]['img'] = ['banners',dir,fileName].join('/');
-                                    banners[i]['guid'] = hash.substr(0,2)+hash.substr(2,2)+hash.substr(4,2)+hash.substr(6,2);
-                                    if(banners[i]['old-img'] !== 'new'){
-                                        app.exec('rm -r ' + [STORAGE_PATH,'banners',banners[i]['old-img'].split('/')[1]].join('/'),function(err){
-                                            if(err){console.log('remove dir err: '+err);}
-                                        });
-                                    }
-                                    delete banners[i]['old-img'];
-                                    if(i == (arr.length-1)){
-                                        //console.log(banners);
-                                        app.Banners.setAll(banners).then(function(){
-                                            res.end('complete');
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    });
+        app.Shops.getAllForBanners(shopsLinks).then(function(shops){
+            shops.forEach(function(shop, i){
+                banners[i]['shop-id'] = shop.id;
+                banners[i]['shop-logo'] = shop.logo;
+                banners[i]['shop-link'] = shop.site;
+            });
+
+            shopsLinks.forEach(function(item, i){
+                if(i > 0 && ~shopsLinks.slice(0, i).indexOf(shopsLinks[i])){
+                    var index = shopsLinks.slice(0, i).indexOf(shopsLinks[i]);
+                    banners[i]['shop-id'] = banners[index]['shop-id'];
+                    banners[i]['shop-logo'] = banners[index]['shop-logo'];
+                    banners[i]['shop-link'] = banners[index]['shop-link'];
                 }
             });
-        }
+
+            for(var key in req.files){
+                req.files[key].forEach(function(file, i, arr){
+                    if(banners[i]['old-img'] !== 'new' && !file.originalFilename){
+                        var ext = banners[i]['old-img'].split('.');
+                        ext = ext[ext.length - 1];
+                        var path = [STORAGE_PATH, banners[i]['old-img']].join('/');
+                    }else{
+                        var file = file;
+                        var ext = file.originalFilename.split('.');
+                        ext = ext[ext.length - 1];
+                        var path = file.path;
+                    }
+                    if(file.size <= MAX_FILE_SIZE){
+                        makePath(ext,function(err,dir,fileName,hash){
+                            if(err){console.log('makepath err: '+err);}
+                            else{
+                                var pathNew = [STORAGE_PATH,'banners',dir,fileName].join('/');
+                                app.fs.rename(path, pathNew, function(err){
+                                    if(err){console.log('rename err: '+err);}
+                                    else{
+                                        banners[i]['img'] = ['banners',dir,fileName].join('/');
+                                        banners[i]['guid'] = hash.substr(0,2)+hash.substr(2,2)+hash.substr(4,2)+hash.substr(6,2);
+                                        if(banners[i]['old-img'] !== 'new'){
+                                            app.exec('rm -r ' + [STORAGE_PATH,'banners',banners[i]['old-img'].split('/')[1]].join('/'),function(err){
+                                                if(err){console.log('remove dir err: '+err);}
+                                            });
+                                        }
+                                        delete banners[i]['old-img'];
+                                        if(i == (arr.length-1)){
+                                            //console.log(banners);
+                                            app.Banners.setAll(banners).then(function(){
+                                                res.end('complete');
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
     }else{
         if(id && id !== 'undefined'){

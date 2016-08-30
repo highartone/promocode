@@ -18,10 +18,50 @@ $(document).ready(function(){
             logo:"",
             images:0
         });
+
+        $('.hero-slider-thumb:eq(0)').addClass('is-active');
+
+        var nextBanner = function(){
+            var index = $('.is-active').index();
+            $('.is-active').removeClass('is-active');
+            if(++index < numbers){
+                $('.hero-slider-thumb:eq('+(index)+')').addClass('is-active');
+            }else{
+                $('.hero-slider-thumb:eq(0)').addClass('is-active');
+            }
+        };
+        var prevBanner = function(){
+            var index = $('.is-active').index();
+            $('.is-active').removeClass('is-active');
+            if(index != 0){
+                $('.hero-slider-thumb:eq('+(index-1)+')').addClass('is-active');
+            }else{
+                $('.hero-slider-thumb:eq('+(numbers-1)+')').addClass('is-active');
+            }
+        };
+        var sliderTimer;
+        var timerBanner = function(){
+            clearInterval(sliderTimer);
+            sliderTimer = setInterval(function() {
+                nextBanner();
+            }, 35*100);
+        };
+        
+        var numbers = document.getElementsByClassName('hero-slider-thumb').length;
+        $('.ws_next').click(function(){
+            nextBanner();
+            timerBanner();
+        });
+        $('.ws_prev').click(function(){
+            prevBanner();
+            timerBanner();
+        });
+        timerBanner();
+
     }else{
        $('#wowslider-container').removeAttr('id');
     }
-
+    
     //hide more-btn
     if(document.getElementsByClassName('promocode-item').length < 15){
         $('#more-btn').css('display', 'none');

@@ -67,6 +67,7 @@
                                 <div class="coupon banner-item" data-id="<%= data.banners[i]._id %>">
                                     <input type="hidden" name="old-img" value="<%= data.banners[i].img %>" class="old-img">
                                     <input type="text" class="banner-field banner-link" name="link" placeholder="ссылка" value="<%= data.banners[i].link %>">
+                                    <input type="text" class="banner-field banner-shop" name="shop" placeholder="ссылка на магазин" value="<%= data.banners[i].shop %>">
                                     <textarea class="banner-field banner-desc" name="desc" placeholder="описание" rows="3"><%= data.banners[i].desc %></textarea>
                                     <input type="file" id="banner-img-<%=i%>" class="banner-img-field" name="banner-img" multiple="multiple">
                                     <label for="banner-img-<%=i%>" class="banner-img">
@@ -84,6 +85,7 @@
                         <div class="coupon banner-item banner-clone">
                             <input type="hidden" name="old-img" value="new" class="old-img">
                             <input type="text" class="banner-field banner-link" name="link" placeholder="ссылка">
+                            <input type="text" class="banner-field banner-shop" name="shop" placeholder="ссылка на магазин">
                             <textarea class="banner-field banner-desc" name="desc" placeholder="описание" rows="3"></textarea>
                             <input type="file" id="banner-img-" class="banner-img-field" name="banner-img">
                             <label for="banner-img-" class="banner-img">
