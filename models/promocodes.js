@@ -181,6 +181,7 @@ exports.setAll = function (data) {
 
             collection.removeMany({}, function (err) {
                 if (err) {
+                    console.log('remove err in promocodes: '+err);
                     deferred.reject(err);
                 } else {
                     for (var i = 0; i < data.length; ++i) {
@@ -191,6 +192,7 @@ exports.setAll = function (data) {
                                 var def = Q.defer();
                                 collection.insertOne(row, function (err) {
                                     if (err) {
+                                        console.log('insertOne err in promocodes: '+err);
                                         def.reject(err);
                                     } else {
                                         def.resolve();
@@ -208,6 +210,7 @@ exports.setAll = function (data) {
             });
         })
         .fail(function (err) {
+            console.log('fail err in promocodes: '+err);
             deferred.reject(err);
         });
 

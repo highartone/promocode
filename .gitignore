@@ -1,3 +1,4 @@
 .idea/*
 config/config.json
 node_modules/*
+public/img/banners/*

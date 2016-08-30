@@ -25,6 +25,7 @@ exports.setAll = function (data) {
                         var def = Q.defer();
                         collection.updateOne({guid: row.guid}, {$set: row}, {upsert: true}, function (err) {
                             if (err) {
+                                console.log('updateOne err in shops: '+err);
                                 def.reject(err);
                             } else {
                                 def.resolve();
@@ -40,6 +41,7 @@ exports.setAll = function (data) {
             });
         })
         .fail(function (err) {
+            console.log('fail err in shops: '+err);
             deferred.reject(err);
         });
 
