@@ -89,7 +89,7 @@ module.exports = function(req,res,app,id,dir){
                                         }
                                         delete banners[i]['old-img'];
                                         if(i == (arr.length-1)){
-                                            //console.log(banners);
+                                            console.log(banners);
                                             app.Banners.setAll(banners).then(function(){
                                                 res.end('complete');
                                             });
