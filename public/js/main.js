@@ -4,8 +4,8 @@ $(document).ready(function(){
         $('#slider-container').mobilyslider({
             content: '.ws_images', // селектор для слайдера
             children: 'div', // селектор для дочерних элементов
-            transition: 'fade', // переходы: horizontal, vertical, fade
-            animationSpeed: 1000, // скорость перехода в миллисекундах
+            transition: 'horizontal', // переходы: horizontal, vertical, fade
+            animationSpeed: 500, // скорость перехода в миллисекундах
             autoplay: true,
             autoplaySpeed: 5000, // время между переходами (миллисекунды)
             pauseOnHover: true, // останавливать навигацию при наведении на слайдер: false, true
