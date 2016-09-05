@@ -35,5 +35,10 @@ module.exports = function(req,res,app,promocode){
                                 });
                         });
                 });
+        })
+        .fail(function (err) {
+            console.log('Categories.getAll fail error: '+err);
+            app.mongo.close();
+            res.end();
         });
 };

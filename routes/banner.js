@@ -12,7 +12,7 @@ module.exports = function(req,res,app,id,dir){
         // console.log(req.fields);
         // console.log('\n');
 
-        makePath = function(ext,cb){
+        var makePath = function(ext,cb){
             var hash = app.md5((Math.random().toString() + new Date().getTime().toString() + Math.random().toString()));
             var dir = [hash.substr(0,2),hash.substr(2,2)].join('/');
             var fileName = hash.substr(8,8)+'.'+ext;
@@ -68,17 +68,26 @@ module.exports = function(req,res,app,id,dir){
                     }
                     if(file.size <= MAX_FILE_SIZE){
                         makePath(ext,function(err,dir,fileName,hash){
-                            if(err){console.log('makepath err: '+err);}
+                            if(err){
+                                console.log('makepath err: '+err);
+                                res.end();
+                            }
                             else{
                                 var pathNew = [STORAGE_PATH,'banners',dir,fileName].join('/');
                                 app.fs.rename(path, pathNew, function(err){
-                                    if(err){console.log('rename err: '+err);}
+                                    if(err){
+                                        console.log('rename err: '+err);
+                                        res.end();
+                                    }
                                     else{
                                         banners[i]['img'] = ['banners',dir,fileName].join('/');
                                         banners[i]['guid'] = hash.substr(0,2)+hash.substr(2,2)+hash.substr(4,2)+hash.substr(6,2);
                                         if(banners[i]['old-img'] !== 'new'){
                                             app.exec('rm -r ' + [STORAGE_PATH,'banners',banners[i]['old-img'].split('/')[1]].join('/'),function(err){
-                                                if(err){console.log('remove dir err: '+err);}
+                                                if(err){
+                                                    console.log('remove dir err: '+err);
+                                                    res.end();
+                                                }
                                             });
                                         }
                                         delete banners[i]['old-img'];
@@ -100,26 +109,40 @@ module.exports = function(req,res,app,id,dir){
 
     }else{
         if(id && id !== 'undefined'){
-            app.Banners.remove(id);
+            app.Banners.remove(id)
+                .fail(function (err) {
+                    console.log('banner remove fail error: '+err);
+                    app.mongo.close();
+                    res.end();
+                });
             if(dir !== 'undefined'){
                 app.exec('rm -r ' + [STORAGE_PATH,'banners',dir].join('/'),function(err){
-                    if(err){console.log('remove dir err: '+err);}
+                    if(err){
+                        console.log('remove dir err: '+err);
+                        res.end();
+                    }
                 });
             }
         }
-        app.Banners.getAll().then(function(banners){
-            var data= {};
-            //console.log(banners);
-            data.banners = banners ? banners : null;
-            app.just.render('banner',{data: data},function(err,html){
-                if(err){console.log(err);}
-                else{
-                    res.setHeader('Content-Type', 'text/html');
-                    res.write(html);
-                }
+        app.Banners.getAll()
+            .then(function(banners){
+                var data= {};
+                //console.log(banners);
+                data.banners = banners ? banners : null;
+                app.just.render('banner',{data: data},function(err,html){
+                    if(err){console.log(err);}
+                    else{
+                        res.setHeader('Content-Type', 'text/html');
+                        res.write(html);
+                    }
+                    res.end();
+                });
+            })
+            .fail(function (err) {
+                console.log('banner getAll fail error: '+err);
+                app.mongo.close();
                 res.end();
             });
-        });
     }
 
 };

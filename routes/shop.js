@@ -14,7 +14,7 @@ module.exports = function(req,res,app,shop){
                     app.Shops.getTop()
                         .then(function (shops) {
                             data.topShops = shops.filter(function(shop){
-                                return true ? shop.rating : false;
+                                return shop.rating ? true : false;
                             });
 
                             app.Banners.getAll().then(function(banners){
@@ -31,7 +31,11 @@ module.exports = function(req,res,app,shop){
                             });
                         });
                 });
+        })
+        .fail(function (err) {
+            console.log('Categories.getAll fail error: '+err);
+            app.mongo.close();
+            res.end();
         });
-
 
 };

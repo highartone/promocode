@@ -31,6 +31,11 @@ module.exports = function(req,res,app,pageName,category){
                                 });
                             });
                     });
+            })
+            .fail(function (err) {
+                console.log('categories fail error: '+err);
+                app.mongo.close();
+                res.end();
             });
     }else if (pageName === 'shops'){
         app.Categories.getAll('categoriesForShops')
@@ -62,6 +67,11 @@ module.exports = function(req,res,app,pageName,category){
                                 });
                             });
                     });
+            })
+            .fail(function (err) {
+                console.log('categories fail error: '+err);
+                app.mongo.close();
+                res.end();
             });
     }
 

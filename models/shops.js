@@ -213,32 +213,11 @@ exports.getAllSearch = function (term) {
 /**
  * Get all shops of a search
  *
- * @param {array} links
+ * @param {Array} links
  * @returns {*|promise}
  */
 exports.getAllForBanners = function (links) {
     var deferred = Q.defer();
-
-    // mongo.connect()
-    //     .then(function (db) {
-    //         db.collection(COLLECTION_NAME)
-    //             .find({
-    //                 deleted: {$ne: true},
-    //                 site: { $in: links } 
-    //             })
-    //             .toArray(function (err, data) {
-    //                 if (err) {
-    //                     console.log('shops getAllForBanners error: '+err);
-    //                     deferred.reject();
-    //                 } else {
-    //                     deferred.resolve(data);
-    //                 }
-    //             });
-    //     })
-    //     .fail(function (err) {
-    //         console.log('shops getAllForBanners fail error: '+err);
-    //         deferred.reject(err);
-    //     });
 
     mongo.connect()
         .then(function (db) {

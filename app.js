@@ -20,6 +20,7 @@ var APP = function(config){
     this.pixel = this.fs.readFileSync(__dirname+'/pixel.gif');
 	this.URL = require('url');
 	this.moment = require('moment');
+	this.mongo = require('./services/mongo');
 	this.router = new director.http.Router();
 	this.Categories = require('./models/categories');
 	this.Shops = require('./models/shops');

@@ -2,11 +2,13 @@ console.log('Start get data! ', new Date());
 
 var config = require('../config'),
     request = require('request'),
+    async = require('async'),
     Q = require('q'),
     xmlParser = require('xml2js').parseString,
     Categories = require('../models/categories'),
     Shops = require('../models/shops'),
     moment = require('moment'),
+    mongo = require('../services/mongo'),
     Promocodes = require('../models/promocodes');
 
 var options = {
@@ -103,11 +105,30 @@ getData()
     .then(function (data) {
         console.log('categoriesForShops number: '+data[0].length+' categoriesForPromocodes number: '+data[1].length+' shops number: '+data[2].length+' promocodes number: '+data[3].length);
 
-        Categories.setAll({'categoriesForShops': data[0]}, 'categoriesForShops');
-        Categories.setAll({'categoriesForPromocodes': data[1]}, 'categoriesForPromocodes');
-        Shops.setAll(data[2]);
-        Promocodes.setAll(data[3]);
+        async.parallel([
+            function(cb){
+                Categories.setAll({'categoriesForShops': data[0]}, 'categoriesForShops').then(function(){cb();});
+            },
+            function(cb){
+                Categories.setAll({'categoriesForPromocodes': data[1]}, 'categoriesForPromocodes').then(function(){cb();});
+            },
+            function(cb){
+                Shops.setAll(data[2]).then(function(){cb();});
+            },
+            function(cb){
+                Promocodes.setAll(data[3]).then(function(){cb();});
+            }
+        ], function(err) {
+            if(err){
+                console.log('async getData error: '+err);
+            }else{
+                console.log('Finish get data! ', new Date());
+            }
+            mongo.close();
+        });
+
     })
-    .then(function () {
-        console.log('Finish get data! ', new Date());
+    .fail(function (err) {
+        console.log('getData fail error: '+err);
+        mongo.close();
     });
