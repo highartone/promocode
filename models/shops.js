@@ -219,21 +219,58 @@ exports.getAllSearch = function (term) {
 exports.getAllForBanners = function (links) {
     var deferred = Q.defer();
 
+    // mongo.connect()
+    //     .then(function (db) {
+    //         db.collection(COLLECTION_NAME)
+    //             .find({
+    //                 deleted: {$ne: true},
+    //                 site: { $in: links } 
+    //             })
+    //             .toArray(function (err, data) {
+    //                 if (err) {
+    //                     console.log('shops getAllForBanners error: '+err);
+    //                     deferred.reject();
+    //                 } else {
+    //                     deferred.resolve(data);
+    //                 }
+    //             });
+    //     })
+    //     .fail(function (err) {
+    //         console.log('shops getAllForBanners fail error: '+err);
+    //         deferred.reject(err);
+    //     });
+
     mongo.connect()
         .then(function (db) {
-            db.collection(COLLECTION_NAME)
-                .find({
-                    deleted: {$ne: true},
-                    site: { $in: links } 
-                })
-                .toArray(function (err, data) {
-                    if (err) {
-                        console.log('shops getAllForBanners error: '+err);
-                        deferred.reject();
-                    } else {
-                        deferred.resolve(data);
-                    }
-                });
+            var collection = db.collection(COLLECTION_NAME),
+                promises = [];
+
+            for (var i = 0; i < links.length; ++i) {
+                var link = links[i];
+
+                promises.push(
+                    (function (data, collection) {
+                        var def = Q.defer();
+                        if(link){
+                            collection.find({site: link}).toArray(function (err, result) {
+                                if (err) {
+                                    console.log('shops getAllForBanners error: '+err);
+                                    def.reject(err);
+                                } else {
+                                    def.resolve(result);
+                                }
+                            });
+                        }else{
+                            def.resolve(null);
+                        }
+                        return def.promise;
+                    })(link, collection)
+                );
+            }
+
+            return Q.all(promises).then(function (results) {
+                deferred.resolve(results);
+            });
         })
         .fail(function (err) {
             console.log('shops getAllForBanners fail error: '+err);

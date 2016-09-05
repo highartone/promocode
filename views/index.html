@@ -1,45 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-    <title>Скидка, акции и промо-коды в лучших магазинах на Prommy.ry</title>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
-
-    <link href="css/style.css" rel="stylesheet"/>
-    <link href="css/font-awesome.min.css" rel="stylesheet"/>
-
-    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-</head>
-<body>
-<div id="fb-root"></div>
-
-<div id="mobileMenu-pushAside" class="mobileMenuPushAside">
-    <div class="wrapper">
-
-
-        <div class="logobar">
-            <div class="l-centered">
-                <a href="#menu" class="js-openMobileMenu mobile_menu"></a>
-                <a href="/" class="logo" title="back to homepage">Prom<b>my</b>.ru</a>
-
-                <div class="inputwithsubmit inputwithsubmit_sitesearch">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    <form action="/search" id="searchForm" method="get">
-                        <input name="term" type="text" id="search-term" autocomplete="off" size="50" class="searchtextbox defaultText" placeholder="">
-                        <input type="submit" id="btnSearch" class="btnBase btnSecondary" value="Поиск">
-                    </form>
-                    <div class="contain_autocomplete_list">
-                        <div id="autocomplete_list_of_results"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end of logobar -->
-
+<%@ header %>
 
         <div id="mobileMenu">
             <div class="topnavbar">
@@ -68,33 +27,33 @@
             <div class="js-overlay-close overlay-bg hidden"></div>
 
             <% if(data.banners.length){ %>
-            <div class="l-centered slider" id="wowslider-container">
+            <div class="l-centered slider" id="slider-container">
                 <div class="ws_images">
-                    <ul>
-                        <% for(var i in data.banners) { %>
-                        <li>
-                            <div class="slider-item" style="background-image: url('img/<%= data.banners[i].img %>');">
-                                <div class="hero-slider-seasonal-info">
-                                    <h3 class="hero-slider-seasonal-headline"><%= data.banners[i].desc %></h3>
-                                    <a href="<%= data.banners[i].link %>" class="btnBase-hero" target="_blank">
-                                        <span class="btnBase">Перейти</span>
-                                    </a>
-                                </div>
+                    <% for(var i in data.banners) { %>
+                        <div class="slider-item" style="background-image: url('img/<%= data.banners[i].img %>');">
+                            <div class="hero-slider-seasonal-info">
+                                <h3 class="hero-slider-seasonal-headline"><%= data.banners[i].desc %></h3>
+                                <a href="<%= data.banners[i].link %>" class="btnBase-hero" target="_blank">
+                                    <span class="btnBase">Перейти</span>
+                                </a>
                             </div>
-                        </li>
-                        <% } %>
-                    </ul>
-                    <div id="home-hero-slider-indicators" class="hero-slider-thumbs hero-slider-<%= data.banners.length%>-thumbs">
-                        <% for(var i in data.banners) { %>
-                        <div class="hero-slider-thumb">
-                            <% if(data.banners[i]['shop-id']){ %>
-                            <a class="merchant-logo" href="/shop=<%= data.banners[i]['shop-id']%>" target="_blank">
-                                <img class="img-responsive" src="<%= data.banners[i]['shop-logo'] %>" width="100" height="27">
-                            </a>
-                            <% } %>
                         </div>
+                    <% } %>
+                </div>
+                <div id="home-hero-slider-indicators" class="hero-slider-thumbs hero-slider-<%= data.banners.length%>-thumbs">
+                    <% for(var i in data.banners) { %>
+                    <div class="hero-slider-thumb">
+                        <% if(data.banners[i]['shop-id']){ %>
+                        <a class="merchant-logo" href="/shop=<%= data.banners[i]['shop-id']%>" target="_blank" data-num="<%=i%>">
+                            <img class="img-responsive" src="<%= data.banners[i]['shop-logo'] %>" width="100" height="27">
+                        </a>
+                        <% }else{ %>
+                        <a class="merchant-logo" href="#" target="_blank" data-num="<%=i%>">
+                            <div class="img-responsive" style="height:27px;width:100px;background:#fff"></div>
+                        </a>
                         <% } %>
                     </div>
+                    <% } %>
                 </div>
             </div>
             <% } %>
@@ -252,21 +211,4 @@
         <div class="push"></div>
     </div>
 
-    <!-- begin footercontainer -->
-    <div id="shared-footer-container" class="footercontainer">
-        <div class="l-centered align_center">
-            <p class="footer_copyright">
-                Все марки и логотипы, представленные на данном портале, принадлежат их законным владельцам.<br>
-                © 2016 Prommy.ru все права защищены
-            </p>
-        </div>
-    </div>
-    <!-- end of footercontainer -->
-</div>
-
-<script src="js/wowslider.js"></script>
-<script src="js/main.js"></script>
-
-</body>
-
-</html>
+<%@ footer %>

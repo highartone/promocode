@@ -1,67 +1,40 @@
 $(document).ready(function(){
     //top slider
-    if($('div').is('#wowslider-container') && document.getElementsByClassName('slider-item').length>1){
-        $("#wowslider-container").wowSlider({
-            effect:"rotate",
-            prev:"",
-            next:"",
-            duration:10*100,
-            delay:25*100,
-            height:268,
-            autoPlay:true,
-            stopOnHover:false,
-            loop:true,
-            bullets:false,
-            caption:true,
-            captionEffect:"slide",
-            controls:true,
-            logo:"",
-            images:0
+    if($('div').is('#slider-container') && document.getElementsByClassName('slider-item').length>1) {
+        $('#slider-container').mobilyslider({
+            content: '.ws_images', // селектор для слайдера
+            children: 'div', // селектор для дочерних элементов
+            transition: 'fade', // переходы: horizontal, vertical, fade
+            animationSpeed: 1000, // скорость перехода в миллисекундах
+            autoplay: true,
+            autoplaySpeed: 5000, // время между переходами (миллисекунды)
+            pauseOnHover: true, // останавливать навигацию при наведении на слайдер: false, true
+            bullets: true, // генерировать навигацию (true/false, class: sliderBullets)
+            arrows: true, // генерировать стрелки вперед и назад (true/false, class: sliderArrows)
+            arrowsHide: true, // показывать стрелки только при наведении
+            prev: 'ws_prev', // название класса для кнопки назад
+            next: 'ws_next', // название класса для кнопки вперед
+            animationStart: function () {
+            }, // вызывать функцию при старте перехода
+            animationComplete: function () {
+                var index;
+                setTimeout(function() {
+                    index = $('.sliderBullets').find('.active').index();
+                    $('.hero-slider-thumbs').find('.is-active').removeClass('is-active');
+                    $('.hero-slider-thumb:eq('+(index)+')').addClass('is-active');
+                }, 100);
+            } // вызывать функцию когда переход завершен
         });
-
-        $('.hero-slider-thumb:eq(0)').addClass('is-active');
-
-        var nextBanner = function(){
-            var index = $('.is-active').index();
-            $('.is-active').removeClass('is-active');
-            if(++index < numbers){
-                $('.hero-slider-thumb:eq('+(index)+')').addClass('is-active');
-            }else{
-                $('.hero-slider-thumb:eq(0)').addClass('is-active');
-            }
-        };
-        var prevBanner = function(){
-            var index = $('.is-active').index();
-            $('.is-active').removeClass('is-active');
-            if(index != 0){
-                $('.hero-slider-thumb:eq('+(index-1)+')').addClass('is-active');
-            }else{
-                $('.hero-slider-thumb:eq('+(numbers-1)+')').addClass('is-active');
-            }
-        };
-        var sliderTimer;
-        var timerBanner = function(){
-            clearInterval(sliderTimer);
-            sliderTimer = setInterval(function() {
-                nextBanner();
-            }, 35*100);
-        };
-        
-        var numbers = document.getElementsByClassName('hero-slider-thumb').length;
-        $('.ws_next').click(function(){
-            nextBanner();
-            timerBanner();
-        });
-        $('.ws_prev').click(function(){
-            prevBanner();
-            timerBanner();
-        });
-        timerBanner();
-
-    }else{
-       $('#wowslider-container').removeAttr('id');
     }
-    
+    $('.hero-slider-thumb:eq(0)').addClass('is-active');
+
+    $('.merchant-logo').click(function(e){
+        e.preventDefault();
+        var index = $(this).attr('data-num');
+        $('.sliderBullets a:eq('+(index)+')').click();
+    });
+
+
     //hide more-btn
     if(document.getElementsByClassName('promocode-item').length < 15){
         $('#more-btn').css('display', 'none');

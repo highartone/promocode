@@ -7,9 +7,10 @@ module.exports = function(req,res,app,id,dir){
         var banners = [],
             shopsLinks = [];
 
-        // console.log('formData: \n');
+        // console.log('formData:');
         // console.log(req.files);
         // console.log(req.fields);
+        // console.log('\n');
 
         makePath = function(ext,cb){
             var hash = app.md5((Math.random().toString() + new Date().getTime().toString() + Math.random().toString()));
@@ -46,17 +47,10 @@ module.exports = function(req,res,app,id,dir){
 
         app.Shops.getAllForBanners(shopsLinks).then(function(shops){
             shops.forEach(function(shop, i){
-                banners[i]['shop-id'] = shop.id;
-                banners[i]['shop-logo'] = shop.logo;
-                banners[i]['shop-link'] = shop.site;
-            });
-
-            shopsLinks.forEach(function(item, i){
-                if(i > 0 && ~shopsLinks.slice(0, i).indexOf(shopsLinks[i])){
-                    var index = shopsLinks.slice(0, i).indexOf(shopsLinks[i]);
-                    banners[i]['shop-id'] = banners[index]['shop-id'];
-                    banners[i]['shop-logo'] = banners[index]['shop-logo'];
-                    banners[i]['shop-link'] = banners[index]['shop-link'];
+                if(shop){
+                    banners[i]['shop-id'] = shop[0].id;
+                    banners[i]['shop-logo'] = shop[0].logo;
+                    banners[i]['shop-link'] = shop[0].site;
                 }
             });
 
@@ -89,7 +83,8 @@ module.exports = function(req,res,app,id,dir){
                                         }
                                         delete banners[i]['old-img'];
                                         if(i == (arr.length-1)){
-                                            console.log(banners);
+                                            // console.log('banners data:');
+                                            // console.log(banners);
                                             app.Banners.setAll(banners).then(function(){
                                                 res.end('complete');
                                             });
