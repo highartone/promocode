@@ -35,6 +35,9 @@ var APP = function(config){
 	this.router.path(/shop=(\d+)/,function(){
 		this.get(function(shop){require('./routes/shop.js')(this.req,this.res,self,shop)});
 	});
+	this.router.path(/shop=([\s\S]{32})/,function(){
+		this.get(function(shop){require('./routes/shop.js')(this.req,this.res,self,shop)});
+	});
 	this.router.path(/promocode=(\d+)/,function(){
 		this.get(function(promocode){require('./routes/promocode.js')(this.req,this.res,self,promocode)});
 	});
@@ -61,6 +64,21 @@ var APP = function(config){
 	});
 	this.router.path(/bannerSave&id=([\s\S]*)&dir=([\s\S]{2})/,function(){
 		this.get(function(id,dir){require('./routes/banner.js')(this.req,this.res,self,id,dir)});
+	});
+	this.router.path(/list&callback=([\s\S]*)/,function(){
+		this.get(function(callback){require('./routes/list.js')(this.req,this.res,self,callback)});
+	});
+	this.router.path('list',function(){
+		this.get(function(){require('./routes/list.js')(this.req,this.res,self)});
+	});
+	this.router.path(/get=([\s\S]{32})/,function(){
+		this.get(function(hash){require('./routes/get.js')(this.req,this.res,self,hash)});
+	});
+	this.router.path(/get=([\s\S]{32})&callback=([\s\S]*)/,function(){
+		this.get(function(hash,callback){require('./routes/get.js')(this.req,this.res,self,hash,callback)});
+	});
+	this.router.path('disable',function(){
+		this.get(function(){require('./routes/disable.js')(this.req,this.res,self)});
 	});
 
 	if(this.config.get('local')){

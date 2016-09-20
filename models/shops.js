@@ -133,13 +133,15 @@ exports.getAll = function () {
         .then(function (db) {
             db.collection(COLLECTION_NAME).find({deleted: {$ne: true}}).toArray(function (err, data) {
                 if (err) {
-                    deferred.reject();
+                    console.log('shops getAll err'+err);
+                    deferred.reject(err);
                 } else {
                     deferred.resolve(data);
                 }
             });
         })
         .fail(function (err) {
+            console.log('shops getAll fail err'+err);
             deferred.reject(err);
         });
 

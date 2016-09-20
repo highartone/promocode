@@ -71,13 +71,15 @@ exports.getAllCategory = function (category, limit, offset) {
  * @param {Number=0} offset
  * @returns {*|promise}
  */
-exports.getAllShop = function (shopId, limit, offset) {
+exports.getAllShop = function (shop, limit, offset) {
     var deferred = Q.defer();
     offset = offset || 0;
 
+    var searchString = !isNaN(parseFloat(shop)) && isFinite(shop) ? {shopId: shop, deleted: {$ne: true}} : {hashShop: shop, deleted: {$ne: true}};
+
     mongo.connect()
         .then(function (db) {
-            db.collection(COLLECTION_NAME).find({shopId: shopId, deleted: {$ne: true}}).sort({dateSort: 1}).skip(offset).limit(limit).toArray(function (err, data) {
+            db.collection(COLLECTION_NAME).find(searchString).sort({dateSort: 1}).skip(offset).limit(limit).toArray(function (err, data) {
                 if (err) {
                     console.log('find error: '+err);
                     deferred.reject();
