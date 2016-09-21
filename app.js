@@ -80,6 +80,10 @@ var APP = function(config){
 	this.router.path('disable',function(){
 		this.get(function(){require('./routes/disable.js')(this.req,this.res,self)});
 	});
+	this.router.path('tag',function(){
+		this.get(function(){require('./routes/tag.js')(this.req,this.res,self)});
+	});
+	
 
 	if(this.config.get('local')){
 		this.router.path(/\/(js|css|img|fonts|)\/([\s\S]*)\.(js|css|jpeg|jpg|png|otf|eot|ttf|woff|woff2|svg)/,function(){
