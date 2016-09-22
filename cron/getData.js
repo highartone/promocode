@@ -49,6 +49,8 @@ var getToolbarData = function(){
 };
 
 var getData = function(){
+    console.time('parseData');
+
     var deferred = Q.defer(),
         promocodes = [],
         shops = [],
@@ -140,8 +142,10 @@ var getData = function(){
 
 getData()
     .then(function (data) {
+        console.timeEnd('parseData');
         console.log('categoriesForShops number: '+data[0].length+' categoriesForPromocodes number: '+data[1].length+' shops number: '+data[2].length+' promocodes number: '+data[3].length);
 
+        console.time('saveData');
         async.parallel([
             function(cb){
                 Categories.setAll({'categoriesForShops': data[0]}, 'categoriesForShops').then(function(){cb();});
@@ -159,6 +163,7 @@ getData()
             if(err){
                 console.log('async getData error: '+err);
             }else{
+                console.timeEnd('saveData');
                 console.log('Finish get data! ', new Date());
             }
             mongo.close();
