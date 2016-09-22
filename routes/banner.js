@@ -1,7 +1,7 @@
-module.exports = function(req,res,app,id,dir){
+const MAX_FILE_SIZE = 650000;
+const STORAGE_PATH = __dirname + '/../public/img';
 
-    const MAX_FILE_SIZE = 650000;
-    const STORAGE_PATH = __dirname + '/../public/img';
+module.exports = function(req,res,app,id,dir){
 
     if (req.method === 'POST') {
         var banners = [],
