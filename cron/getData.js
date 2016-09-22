@@ -119,8 +119,8 @@ var getData = function(){
                                     promolink: item.promolink ? item.promolink[0] : '',
                                     gotolink: item.gotolink ? item.gotolink[0] : '',
                                     dateStart: item.date_start[0],
-                                    dateEnd: moment.unix(parseInt(new Date(item.date_end[0]).getTime())/1000).format('DD-MM-YYYY HH:mm'),
-                                    dateSort: parseInt(new Date(item.date_end[0]).getTime())/1000,
+                                    dateEnd: moment.unix(+(new Date(item.date_end[0]).getTime())/1000).format('DD-MM-YYYY HH:mm'),
+                                    dateSort: +(new Date(item.date_end[0]).getTime())/1000,
                                     exclusive: item.exclusive[0],
                                     discount: item.discount[0],
                                     categories: item.categories[0].category_id
