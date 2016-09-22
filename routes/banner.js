@@ -1,6 +1,29 @@
 const MAX_FILE_SIZE = 650000;
 const STORAGE_PATH = __dirname + '/../public/img';
 
+var makePath = function(app,ext,cb){
+    var hash = app.md5((Math.random().toString() + new Date().getTime().toString() + Math.random().toString()));
+    var dir = [hash.substr(0,2),hash.substr(2,2)].join('/');
+    var fileName = hash.substr(8,8)+'.'+ext;
+    app.fs.stat([STORAGE_PATH,'banners',dir,fileName].join('/'), function (err, stats) {
+        if(err){
+            app.fs.stat([STORAGE_PATH,'banners',dir].join('/'),function(err, stats){
+                if(err){
+                    app.exec('mkdir -p ' + [STORAGE_PATH,'banners',dir].join('/'),function(err){
+                        cb(err,dir,fileName,hash);
+                    })
+                }else{
+                    console.log('dir stats'+stats);
+                    cb(err,dir,fileName,hash);
+                }
+            });
+        }else{
+            console.log('file stats'+stats);
+            makePath(app,ext,cb);
+        }
+    });
+};
+
 module.exports = function(req,res,app,id,dir){
 
     if (req.method === 'POST') {
@@ -11,29 +34,6 @@ module.exports = function(req,res,app,id,dir){
         // console.log(req.files);
         // console.log(req.fields);
         // console.log('\n');
-
-        var makePath = function(ext,cb){
-            var hash = app.md5((Math.random().toString() + new Date().getTime().toString() + Math.random().toString()));
-            var dir = [hash.substr(0,2),hash.substr(2,2)].join('/');
-            var fileName = hash.substr(8,8)+'.'+ext;
-            app.fs.stat([STORAGE_PATH,'banners',dir,fileName].join('/'), function (err, stats) {
-                if(err){
-                    app.fs.stat([STORAGE_PATH,'banners',dir].join('/'),function(err, stats){
-                        if(err){
-                            app.exec('mkdir -p ' + [STORAGE_PATH,'banners',dir].join('/'),function(err){
-                                cb(err,dir,fileName,hash);
-                            })
-                        }else{
-                            console.log('dir stats'+stats);
-                            cb(err,dir,fileName,hash);
-                        }
-                    });
-                }else{
-                    console.log('file stats'+stats);
-                    makePath(ext,cb);
-                }
-            });
-        };
 
         for(var key in req.fields){
             req.fields[key].forEach(function(item, i){
@@ -67,7 +67,7 @@ module.exports = function(req,res,app,id,dir){
                         var path = file.path;
                     }
                     if(file.size <= MAX_FILE_SIZE){
-                        makePath(ext,function(err,dir,fileName,hash){
+                        makePath(app,ext,function(err,dir,fileName,hash){
                             if(err){
                                 console.log('makepath err: '+err);
                                 res.end();
