@@ -260,3 +260,6 @@ textarea.banner-field{
 .banner-item{margin-bottom: 15px;}
 .banner-item:last-child{margin-bottom: 0;}
 .banner-clone {display: none}
+.options-btn {position: relative; top: 0; width: 40%; left:30%}
+.block-prommy:hover .btnBase {background: #59c419 !important; cursor: default}
+.options-title {text-align: center}

@@ -83,6 +83,9 @@ var APP = function(config){
 	this.router.path('tag',function(){
 		this.get(function(){require('./routes/tag.js')(this.req,this.res,self)});
 	});
+	this.router.path('options',function(){
+		this.get(function(){require('./routes/options.js')(this.req,this.res,self)});
+	});
 	
 
 	if(this.config.get('local')){

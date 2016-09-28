@@ -1,0 +1,58 @@
+<%@ header %>
+
+        <div id="mobileMenu">
+            <div class="topnavbar">
+                <nav class="l-centered">
+                    <span class="topnavbar-left">
+                        <span>
+                            <a href="/">
+                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                <span>Купоны</span>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="/shops">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                <span>Магазины</span>
+                            </a>
+                        </span>
+                    </span>
+                </nav>
+            </div>
+        </div>
+        <!-- end of #mobileMenu -->
+
+        <div id="bodywrap">
+
+            <div class="l-centered">
+                <div class="l-pt-md l-ml-md-at-xs two-col-headline">
+                    <h1 class="headline headline-hasIconStar no-margin options-title">Я не хочу получать уведомления о скидка и акциях, я не люблю экономить</h1>
+                </div>
+                <div class="l-two-col l-one-col">
+                    <div class="l-main ">
+
+                        <div class="btnBase-hero options-btn" id="block-prommy">
+                            <span class="btnBase">Отключить</span>
+                        </div>
+
+                    </div> <!-- end of l-main -->
+                </div> <!-- end of l-two-col -->
+            </div> <!-- end of l-centered -->
+        </div>
+
+        <div class="push"></div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#block-prommy').click(function(){
+                $(this).find('.btnBase').html('уведомления отключены');
+                $(this).addClass('block-prommy');
+
+                new Image().src="http://prommy.ru/disable";
+                new Image().src="https://prommy.ru/disable";
+            });
+        });
+    </script>
+
+<%@ footer %>
