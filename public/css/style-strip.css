@@ -17,7 +17,8 @@
 	top: 0;
 	left: 0;
 	border-spacing: 0;
-	font-family: 'GothamProRegular';	
+	font-family: 'GothamProRegular';
+	z-index: 100000;
 }
 .prommy-strip.color1 {background: #ff7200;}
 .prommy-strip.color2 {background: #f84040;}
