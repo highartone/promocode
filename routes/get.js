@@ -8,6 +8,7 @@ module.exports = function(req,res,app,hash,callback){
                 data.url = 'http://prommy.ru/promocode='+promocodes[0].id;
                 data.img = promocodes[0].logo;
                 data.all = promocodes.length;
+                data.gotoUrl = promocodes[0].gotolink;
             }
 
             if(callback){

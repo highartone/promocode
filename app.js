@@ -8,7 +8,7 @@ var APP = function(config){
 	events.EventEmitter.call(this);
 	this.config = config;
 	var self = this;
-
+	
 	/** DB connect */
 	this.redis = require('redis').createClient(config.get('db:redis:port'),config.get('db:redis:host'));
 
@@ -24,9 +24,11 @@ var APP = function(config){
 	this.router = new director.http.Router();
 	this.Categories = require('./models/categories');
 	this.Shops = require('./models/shops');
+	this.Domains = require('./models/domains');
 	this.Promocodes = require('./models/promocodes');
 	this.Banners = require('./models/banners');
 	this.multiparty = require('multiparty');
+	this.domainsUpdater = require('./domainsUpdater')(self);
 
     /** director routing*/
 	this.router.path('',function(){
@@ -84,7 +86,7 @@ var APP = function(config){
 		this.get(function(){require('./routes/disable.js')(this.req,this.res,self)});
 	});
 	this.router.path('tag',function(){
-		this.get(function(){require('./routes/tag.js')(this.req,this.res,self)});
+		this.get(function(){require('./routes/tagRoute.js')(this.req,this.res,self)});
 	});
 	this.router.path('options',function(){
 		this.get(function(){require('./routes/options.js')(this.req,this.res,self)});

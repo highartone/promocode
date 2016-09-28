@@ -10,6 +10,7 @@ var config = require('../config'),
     moment = require('moment'),
     mongo = require('../services/mongo'),
     Promocodes = require('../models/promocodes'),
+    Domains = require('../models/domains'),
     md5 = require('md5');
 
 var options = {
@@ -37,7 +38,9 @@ var getToolbarData = function(){
                     deferred.reject(err);
                 }else{
                     content.advcampaigns.advcampaign.forEach(function(item){
-                        toolbarShops[item.id] = md5(item.id*Math.floor(Math.random() * 1000));
+                        var site = item.site_url[0].split('/')[2].split('.');
+                        site = site.length > 2 ? site[1]+'.'+site[2] : site[0]+'.'+site[1];
+                        toolbarShops[item.id] = md5(site);
                     });
                     deferred.resolve(toolbarShops);
                 }
@@ -56,6 +59,7 @@ var getData = function(){
         shops = [],
         categoriesForShops = [],
         categoriesForPromocodes = [],
+        domains = [],
         shopsNumber = {};
         
     request(options, function (err, res, body) {
@@ -100,6 +104,11 @@ var getData = function(){
                                     logo: null,
                                     hash: hashData[item.$.id] ? hashData[item.$.id] : null
                                 });
+                                if(hashData[item.$.id]){
+                                    var site = item.site[0].split('/')[2].split('.');
+                                    site = site.length > 2 ? site[1]+'.'+site[2] : site[0]+'.'+site[1];
+                                    domains.push(site.toLowerCase());
+                                }
                                 shopsNumber[item.$.id] = i;
                                 i++;
                             });
@@ -130,7 +139,7 @@ var getData = function(){
                                 if(!shops[shopsNumber[item.advcampaign_id[0]]].logo) shops[shopsNumber[item.advcampaign_id[0]]].logo = item.logo[0];
                             });
 
-                            deferred.resolve([categoriesForShops, categoriesForPromocodes, shops, promocodes]);
+                            deferred.resolve([categoriesForShops, categoriesForPromocodes, shops, promocodes, domains]);
                         });
                 }
             });
@@ -142,8 +151,9 @@ var getData = function(){
 
 getData()
     .then(function (data) {
+        
         console.timeEnd('parseData');
-        console.log('categoriesForShops number: '+data[0].length+' categoriesForPromocodes number: '+data[1].length+' shops number: '+data[2].length+' promocodes number: '+data[3].length);
+        console.log('categoriesForShops number: '+data[0].length+' categoriesForPromocodes number: '+data[1].length+' shops number: '+data[2].length+' promocodes number: '+data[3].length+' domains number: '+data[4].length);
 
         console.time('saveData');
         async.parallel([
@@ -158,6 +168,9 @@ getData()
             },
             function(cb){
                 Promocodes.setAll(data[3]).then(function(){cb();});
+            },
+            function(cb){
+                Domains.setAll({'domains': data[4]}).then(function(){cb();});
             }
         ], function(err) {
             if(err){
