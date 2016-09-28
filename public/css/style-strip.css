@@ -24,10 +24,10 @@
 	position: absolute;
 	top: 50%;
 	-moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
 }
 
 .strip-logo {
@@ -41,15 +41,16 @@
 .logo-cell {
 	background: #fff;
 	width: 209px;
-} 
+}
 
-.strip-desc {	
+.strip-desc {
 	text-align: center;
 	font-size: 22px;
-	color: #fff;
+	color: #fff !important;
 	line-height: 1em;
 	display: block;
 	padding: 5px 0;
+	text-decoration: none !important;
 }
 
 .coupon-cell {width: 470px;}
@@ -111,8 +112,8 @@
 
 @media screen and (max-width: 940px) {
 	.coupon-cell {
-	    width: 257px;
-	    padding: 10px !important;
+		width: 257px;
+		padding: 10px !important;
 	}
 	.strip-coupon {
 		margin-right: 0;
@@ -136,9 +137,9 @@
 	}
 	.logo-cell {
 		width: 160px;
-	}	
+	}
 	.coupon-cell {
-	    width: 150px;
+		width: 150px;
 	}
 	.strip-coupon {
 		background-size: cover;
@@ -164,7 +165,7 @@
 		padding: 0 5px;
 	}
 	.coupon-cell {
-	    padding: 5px !important;
+		padding: 5px !important;
 	}
 	.strip-actions a {
 		padding-bottom: 2px;
