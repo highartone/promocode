@@ -70,7 +70,7 @@
 	background: url('../img/strip-coupon.png') no-repeat 50% 50%;
 	font-size: 20px;
 	text-transform: uppercase;
-	color: #000;
+	color: #000 !important;
 	line-height: 48px;
 	padding-left: 40px;
 	text-decoration: none;
