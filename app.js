@@ -94,6 +94,10 @@ var APP = function(config){
 				if(formatFile == 'jpg'){this.res.setHeader('Content-Type', 'image/jpeg');}
 				if(formatFile == 'png'){this.res.setHeader('Content-Type', 'image/png');}
 				if(formatFile == 'js'){this.res.setHeader('Content-Type', 'text/javascript');}
+				if(formatFile == 'ttf'){this.res.setHeader('Content-Type', 'application/font-sfnt');}
+				if(formatFile == 'woff'){this.res.setHeader('Content-Type', 'application/font-woff');}
+				if(formatFile == 'eot'){this.res.setHeader('Content-Type', 'application/vnd.ms-fontobject');}
+				if(formatFile == 'svg'){this.res.setHeader('Content-Type', 'image/svg+xml');}
 				this.res.write(data);
 				this.res.end();
 			});
