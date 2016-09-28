@@ -71,6 +71,9 @@ var APP = function(config){
 	this.router.path('list',function(){
 		this.get(function(){require('./routes/list.js')(this.req,this.res,self)});
 	});
+	this.router.path('list-domains',function(){
+		this.get(function(){require('./routes/list-domains.js')(this.req,this.res,self)});
+	});
 	this.router.path(/get=([\s\S]{32})/,function(){
 		this.get(function(hash){require('./routes/get.js')(this.req,this.res,self,hash)});
 	});
