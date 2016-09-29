@@ -85,6 +85,9 @@ var APP = function(config){
 	this.router.path('disable',function(){
 		this.get(function(){require('./routes/disable.js')(this.req,this.res,self)});
 	});
+	this.router.path('enable',function(){
+		this.get(function(){require('./routes/enable.js')(this.req,this.res,self)});
+	});
 	this.router.path('tag',function(){
 		this.get(function(){require('./routes/tagRoute.js')(this.req,this.res,self)});
 	});

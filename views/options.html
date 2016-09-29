@@ -31,10 +31,17 @@
                 <div class="l-two-col l-one-col">
                     <div class="l-main ">
 
-                        <div class="switch-cont">
-                            <div class="switch-elem" id="swicth-elem"><i class="switch-circle"></i></div>
-                            <p class="switch-text" id="switch-text">Отключить</p>
-                        </div>
+                        <% if(data != 'false'){ %>
+                            <div class="switch-cont">
+                                <div class="switch-elem off" id="swicth-elem"><i class="switch-circle"></i></div>
+                                <p class="switch-text" id="switch-text">Включить</p>
+                            </div>
+                        <% }else{ %>
+                            <div class="switch-cont">
+                                <div class="switch-elem" id="swicth-elem"><i class="switch-circle"></i></div>
+                                <p class="switch-text" id="switch-text">Отключить</p>
+                            </div>
+                        <% } %>
 
                     </div> <!-- end of l-main -->
                 </div> <!-- end of l-two-col -->
@@ -51,8 +58,8 @@
                     $(this).removeClass('off');
                     $('#switch-text').html('Отключить');
 
-                    var date = new Date(new Date().getTime() + 3660 * 1000 * 24 * 365);
-                    document.cookie = "disabled=false; path=/; expires=" + date.toUTCString();
+                    new Image().src="http://prommy.ru/enable";
+                    new Image().src="https://prommy.ru/enable";
                 }else{
                     $(this).addClass('off');
                     $('#switch-text').html('Включить');
