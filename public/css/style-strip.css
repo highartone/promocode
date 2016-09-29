@@ -50,7 +50,7 @@
 
 .strip-desc {
 	text-align: center;
-	font-size: 22px;
+	font-size: 22px !important;
 	color: #fff !important;
 	line-height: 1em;
 	display: block;
@@ -66,7 +66,7 @@
 	width: 257px;
 	height: 48px;
 	background: url('../img/strip-coupon.png') no-repeat 50% 50%;
-	font-size: 20px;
+	font-size: 20px !important;
 	text-transform: uppercase;
 	color: #000 !important;
 	line-height: 48px;
@@ -152,7 +152,7 @@
 		width: 150px;
 		height: 28px;
 		padding-left: 26px;
-		font-size: 11px;
+		font-size: 11px !important;
 		line-height: 29px;
 	}
 	.strip-actions,
@@ -167,7 +167,7 @@
 	}
 	.strip-btns {width: 50px;}
 	.btn-cell {width: 70px;}
-	.strip-desc {font-size: 17px;}
+	.strip-desc {font-size: 17px !important;}
 	.prommy-strip td {
 		padding: 0 5px;
 	}
