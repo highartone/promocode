@@ -52,7 +52,7 @@
                     $('#switch-text').html('Отключить');
 
                     var date = new Date(new Date().getTime() + 3660 * 1000 * 24 * 365);
-                    document.cookie = "disabled=true; path=/; expires=" + date.toUTCString();
+                    document.cookie = "disabled=false; path=/; expires=" + date.toUTCString();
                 }else{
                     $(this).addClass('off');
                     $('#switch-text').html('Включить');
