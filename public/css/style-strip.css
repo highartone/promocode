@@ -13,6 +13,7 @@
 	z-index: 10000000000;
 	margin: 0 !important;
 	border: 0 !important;
+	text-align: left;
 }
 .prommy-strip.color1 {background: #ff7200;}
 .prommy-strip.color2 {background: #f84040;}
