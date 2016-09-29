@@ -4,7 +4,6 @@ module.exports = function(req,res,app){
         'Set-Cookie': 'disabled=true',
         'Content-Type': 'text/html'
     });
-    res.setHeader('Content-Type', 'text/html');
     res.end();
-    
+
 };
