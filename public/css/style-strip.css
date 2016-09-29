@@ -77,8 +77,8 @@
 	margin-top: 13px;
 }
 .strip-actions a {
-	color: #fff;
-	text-decoration: none;
+	color: #fff !important;
+	text-decoration: none !important;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #fff;
 }
