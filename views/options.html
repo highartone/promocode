@@ -31,8 +31,9 @@
                 <div class="l-two-col l-one-col">
                     <div class="l-main ">
 
-                        <div class="btnBase-hero options-btn" id="block-prommy">
-                            <span class="btnBase">Отключить</span>
+                        <div class="switch-cont">
+                            <div class="switch-elem" id="swicth-elem"><i class="switch-circle"></i></div>
+                            <p class="switch-text" id="switch-text">Отключить</p>
                         </div>
 
                     </div> <!-- end of l-main -->
@@ -45,12 +46,20 @@
 
     <script>
         $(document).ready(function(){
-            $('#block-prommy').click(function(){
-                $(this).find('.btnBase').html('уведомления отключены');
-                $(this).addClass('block-prommy');
+            $('#swicth-elem').click(function(){
+                if($(this).hasClass('off')){
+                    $(this).removeClass('off');
+                    $('#switch-text').html('Отключить');
 
-                new Image().src="http://prommy.ru/disable";
-                new Image().src="https://prommy.ru/disable";
+                    var date = new Date(new Date().getTime() + 3660 * 1000 * 24 * 365);
+                    document.cookie = "disabled=true; path=/; expires=" + date.toUTCString();
+                }else{
+                    $(this).addClass('off');
+                    $('#switch-text').html('Включить');
+
+                    new Image().src="http://prommy.ru/disable";
+                    new Image().src="https://prommy.ru/disable";
+                }
             });
         });
     </script>

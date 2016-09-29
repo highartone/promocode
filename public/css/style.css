@@ -262,4 +262,42 @@ textarea.banner-field{
 .banner-clone {display: none}
 .options-btn {position: relative; top: 0; width: 40%; left:30%}
 .block-prommy:hover .btnBase {background: #59c419 !important; cursor: default}
-.options-title {text-align: center}
+.switch-text {
+    float: left;
+    margin: 0;
+    color: #444;
+    font-size: 22px;
+}
+.switch-elem {
+    float: left;
+    margin-right: 15px;
+    box-sizing: border-box;
+    border-radius: 30px;
+    border: 3px solid #939390;
+    height: 30px;
+    cursor: pointer;
+    background: #59c419;
+    -webkit-transition:background-color .2s ease;
+    transition:background-color .2s ease;
+    width: 75px;
+}
+.switch-elem.off {
+    background: #EC2308;
+}
+.switch-circle {
+    display: block;
+    height: 24px;
+    width: 24px;
+    border-radius: 24px;
+    background: #fff;
+    box-sizing: border-box;
+    border: 1px solid gray;
+    box-shadow: -2px 0px 7px 0px gray inset;
+    position: relative;
+    left:0;
+    -webkit-transition:left .2s ease;
+    transition:left .2s ease;
+}
+.switch-elem.off .switch-circle {
+    left: 46px;
+}
