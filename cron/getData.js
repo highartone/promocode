@@ -40,7 +40,7 @@ var getToolbarData = function(){
                     content.advcampaigns.advcampaign.forEach(function(item){
                         var site = item.site_url[0].split('/')[2].split('.');
                         site = site.length > 2 ? site[1]+'.'+site[2] : site[0]+'.'+site[1];
-                        toolbarShops[item.id] = md5(site);
+                        toolbarShops[item.id] = md5(site.toLowerCase());
                     });
                     deferred.resolve(toolbarShops);
                 }
