@@ -81,6 +81,7 @@
 	text-decoration: none !important;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #fff;
+	font-size: 20px;
 }
 .strip-actions a:hover {
 	border-bottom: none;
@@ -149,7 +150,8 @@
 		font-size: 11px;
 		line-height: 29px;
 	}
-	.strip-actions {
+	.strip-actions,
+	.strip-actions a{
 		font-size: 15px;
 	}
 	.strip-options,
