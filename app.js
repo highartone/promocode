@@ -104,6 +104,7 @@ var APP = function(config){
 				if(formatFile == 'jpeg'){this.res.setHeader('Content-Type', 'image/jpeg');}
 				if(formatFile == 'jpg'){this.res.setHeader('Content-Type', 'image/jpeg');}
 				if(formatFile == 'png'){this.res.setHeader('Content-Type', 'image/png');}
+				if(formatFile == 'ico'){this.res.setHeader('Content-Type', 'image/x-icon');}
 				if(formatFile == 'js'){this.res.setHeader('Content-Type', 'text/javascript');}
 				if(formatFile == 'ttf'){this.res.setHeader('Content-Type', 'application/font-sfnt');}
 				if(formatFile == 'woff'){this.res.setHeader('Content-Type', 'application/font-woff');}
