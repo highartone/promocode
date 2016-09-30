@@ -76,7 +76,7 @@ exports.getAllShop = function (shop, limit, offset) {
     offset = offset || 0;
 
     var searchString = !isNaN(parseFloat(shop)) && isFinite(shop) ? {shopId: shop, deleted: {$ne: true}} : {hashShop: shop, deleted: {$ne: true}};
-
+    
     mongo.connect()
         .then(function (db) {
             db.collection(COLLECTION_NAME).find(searchString).sort({dateSort: 1}).skip(offset).limit(limit).toArray(function (err, data) {

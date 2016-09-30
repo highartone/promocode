@@ -112,8 +112,9 @@ var getData = function(){
                                 //aliexpess crutch
                                 if(item.site[0] == 'http://aliexpress.com/'){
                                     shops[shops.length - 1]['hash'] = md5(site.toLowerCase());
+                                    hashData[item.$.id] = md5(site.toLowerCase());
                                 }
-                                
+
                                 shopsNumber[item.$.id] = i;
                                 i++;
                             });
