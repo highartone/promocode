@@ -93,7 +93,7 @@ var getData = function(){
                             });
 
                             // get shops data
-                            var i = 0;
+                            var i = 0, site = '';
                             content.admitad_coupons.advcampaigns[0].advcampaign.forEach(function(item){
                                 shops.push({
                                     guid: item.$.id,
@@ -104,11 +104,16 @@ var getData = function(){
                                     logo: null,
                                     hash: hashData[item.$.id] ? hashData[item.$.id] : null
                                 });
-                                if(hashData[item.$.id]){
-                                    var site = item.site[0].split('/')[2].split('.');
+                                if(hashData[item.$.id] || item.site[0] == 'http://aliexpress.com/'){
+                                    site = item.site[0].split('/')[2].split('.');
                                     site = site.length > 2 ? site[1]+'.'+site[2] : site[0]+'.'+site[1];
                                     domains.push(site.toLowerCase());
                                 }
+                                //aliexpess crutch
+                                if(item.site[0] == 'http://aliexpress.com/'){
+                                    shops[shops.length - 1]['hash'] = md5(site.toLowerCase());
+                                }
+                                
                                 shopsNumber[item.$.id] = i;
                                 i++;
                             });
