@@ -23,7 +23,6 @@ redis.HGETALL('prommy:stat', function(err, values){
         });
         Shops.updateRating(data)
             .then(function () {
-                console.log(1223);
                 multi.exec(end);
             })
             .fail(end);
